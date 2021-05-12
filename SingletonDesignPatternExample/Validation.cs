@@ -8,13 +8,22 @@ namespace SingletonDesignPatternExample
 {
     public class Validation
     {
+        private static object _lockObj = new object();
 
         private static Validation _instance;
         public static Validation Instance
         {
             get
             {
-                if (_instance == null) _instance = new Validation();
+                if (_instance == null)
+                {
+                    lock (_lockObj)
+                    {
+                        if (_instance == null)
+                            _instance = new Validation();
+                    }
+
+                }
                 return _instance;
             }
         }
